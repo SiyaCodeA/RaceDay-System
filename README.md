@@ -232,24 +232,14 @@ The recommended process is:
 
 The SQL implementation should remain consistent with the final ERD.
 
----
 
-## CI/CD Status
+### CI/CD Evidence
 
-GitHub Actions is used to provide automated validation of the RaceDay repository.
+GitHub Actions is used to validate the required Part 1 documentation files. The workflow checks that the ERD, API Endpoint Plan, SQL database script, and README are present in the repository.
 
-The CI/CD workflow is intended to verify that the required project structure and Part One documentation are present and that the repository can be validated consistently.
+![Part 1 CI Success](docs/CI/Part1-CI-Success.png)
 
-### Current Status
 
-**CI/CD: In Progress**
-
-The final README will include evidence of the successful workflow once the GitHub Actions workflow has completed successfully.
-
-**Successful Build Evidence:**
-*To be added after the first successful green CI/CD build.*
-
----
 
 ## Future Development
 
