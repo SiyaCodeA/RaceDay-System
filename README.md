@@ -324,4 +324,5 @@ The Part One presentation video will demonstrate:
 * Part One project structure and validation
 
 **YouTube Link:**
-*To be added once the presentation has been uploaded.*
+**YouTube Link:** [RaceDay Part 1 Presentation](https://youtu.be/Jz9zT-6gj-Q)
+
