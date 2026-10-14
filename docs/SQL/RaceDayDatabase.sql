@@ -501,3 +501,8 @@ SELECT * FROM Entry;
 SELECT * FROM Result;
 GO
 
+
+select AccountID, FirstName, LastName, Email, Role, PasswordHash
+from Account
+where email = 'testparticipant@example.com';
+

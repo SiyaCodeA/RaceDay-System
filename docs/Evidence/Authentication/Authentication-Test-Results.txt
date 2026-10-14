@@ -1,0 +1,15 @@
+RaceDay System — Authentication Test Results
+
+Environment: ASP.NET Core Web API, SQL Server, Swagger
+
+| Test | Expected result | Actual result |
+
+| Participant login | 200 OK | 200 OK |
+| Authenticated session (`/me`) | 200 OK | 200 OK |
+| Participant accesses organiser-only endpoint | 403 Forbidden | 403 |
+| Logout | 200 OK | 200 OK |
+| Session access after logout | 401 Unauthorized | 401 |
+| Register participant | Successful registration | 200 OK |
+| Login with incorrect password | 401 Unauthorized | 401 |
+
+Summary: All seven authentication tests completed successfully. The API accepted valid credentials, rejected an incorrect password, restricted participant access to the organiser-only endpoint, and denied access to the session endpoint after logout.
