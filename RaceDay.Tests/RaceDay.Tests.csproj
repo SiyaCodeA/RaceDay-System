@@ -24,4 +24,8 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+<ItemGroup>
+  <Compile Remove="RaceDay.Tests/**/*.cs" />
+</ItemGroup>
+
 </Project>
