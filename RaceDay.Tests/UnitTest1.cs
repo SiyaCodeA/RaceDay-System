@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using RaceDay.API.Models;
-using RaceDay.Api.Controllers;
+using RaceDay.API.Controllers;
 using Microsoft.AspNetCore.Authorization;
 
 namespace RaceDay.Tests;
