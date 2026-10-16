@@ -342,4 +342,4 @@ The presentation covers:
 - GitHub Actions workflows and successful validation results.
 - The supporting evidence available in the repository.
 
-**Part Two YouTube Link:** [Paste the Part Two YouTube link here after uploading the video]
+**Part Two YouTube Link:** [RaceDay Part 2 Presentation](https://youtu.be/3WTatosfY_E)
