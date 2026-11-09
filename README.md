@@ -521,11 +521,7 @@ If your Visual Studio launch profiles use different ports, use the addresses sho
 
 ### Part Three Presentation
 
-YouTube presentation: **[Part Three Presentation.](https://youtu.be/L3DG6pr20X4)**
+YouTube link: **[Youtube link.](https://youtu.be/L3DG6pr20X4)**
 
-### Part Three Final Notes
 
-GitHub Actions builds the API and MVC Docker images and verifies that the containers start and respond successfully. The workflow includes application smoke tests; it does not perform a separate database integration test.
 
-Azure Storage credentials and other sensitive configuration must be supplied locally and must never be committed to the repository.
---
