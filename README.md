@@ -521,7 +521,7 @@ If your Visual Studio launch profiles use different ports, use the addresses sho
 
 ### Part Three Presentation
 
-YouTube presentation: **[Part Three Presentation – Link to be added after recording](ADD_PART_THREE_YOUTUBE_LINK_HERE)**
+YouTube presentation: **[Part Three Presentation.](https://youtu.be/L3DG6pr20X4)**
 
 ### Part Three Final Notes
 
