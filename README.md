@@ -289,27 +289,57 @@ The validation workflow checks that the required ERD, API Endpoint Plan, SQL dat
 The successful workflow execution provides evidence that the Part One repository validation completed successfully.
 
 ---
+## Part Three – MVC Application and Cloud Integration
 
-## Future Development
+Part Three extends the RaceDay REST API into a user-facing ASP.NET Core MVC web application. The MVC application communicates with the REST API through HTTP requests, while the API manages database operations.
 
-### Part Three – MVC Application
+### MVC Application Features
 
-The next planned stage is the development of a user-facing MVC application for Organisers and Participants.
+**Authentication and Navigation**
+- Login functionality for Organisers and Participants.
+- Role-based access and navigation.
+- Separate dashboards for each user role.
 
-The MVC application will provide an interface for interacting with the RaceDay system and its REST API.
+**Organiser Functionality**
+- Create, view, update and delete race events.
+- Manage event categories.
+- View and manage participant entries.
+- Record and manage participant results.
 
-Further planned development may include:
+**Participant Functionality**
+- Browse available race events.
+- View event details and categories.
+- Enter events.
+- View personal entries and entry statuses.
+- View recorded results and performance history.
 
-- MVC implementation and user interface development.
-- Integration between the MVC application, REST API and database.
-- Additional account and profile functionality.
-- Expanded event, category, entry and results functionality.
-- Route and weather information features.
-- Azure Blob Storage where required.
-- Docker and containerisation.
-- Cloud deployment and configuration.
+### Cloud Storage
 
-These features will be implemented and tested as development progresses.
+Microsoft Azure Blob Storage is configured to store event banner images. The application uses an Azure Storage Account and an `event-banners` container, with the API responsible for handling image uploads.
+
+### Docker and Continuous Integration
+
+Dockerfiles are included for the RaceDay API and MVC applications. GitHub Actions validates the Docker image builds and the project workflows.
+
+### Technologies Used
+
+- C#
+- ASP.NET Core MVC
+- ASP.NET Core Web API
+- Entity Framework Core
+- SQL Server
+- Microsoft Azure Blob Storage
+- Docker
+- GitHub and GitHub Actions
+- Visual Studio
+
+### Part Three Setup and Configuration
+
+The MVC application communicates with the RaceDay API. Both projects must be configured and running for local application functionality.
+
+Azure Blob Storage requires a valid storage connection string and container configuration. Sensitive credentials must be configured using development secrets or environment variables and must never be committed to GitHub.
+
+Docker image builds are validated through GitHub Actions.
 
 ---
 
