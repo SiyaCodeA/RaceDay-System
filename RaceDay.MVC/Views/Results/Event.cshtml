@@ -1,0 +1,116 @@
+﻿@model List<RaceDay.MVC.ViewModels.OrganiserResultViewModel>
+
+@{
+    ViewData["Title"] = "Manage Results";
+}
+
+<div class="container mt-4">
+    <h2>Manage Race Results</h2>
+    <p class="text-muted">
+        Record participant finish times and positions.
+    </p>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <a asp-controller="Events"
+       asp-action="Index"
+       class="btn btn-outline-secondary mb-3">
+        Back to Events
+    </a>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            No participant entries have been recorded for this event.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th>Participant</th>
+                        <th>Category</th>
+                        <th>Entry Status</th>
+                        <th>Finish Time</th>
+                        <th>Position</th>
+                        <th>Save Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var result in Model)
+                    {
+                        <tr>
+                            <td>@result.ParticipantName</td>
+                            <td>@result.CategoryName</td>
+                            <td>@result.EntryStatus</td>
+                            <td colspan="3">
+                                @if (result.EntryStatus != "Confirmed")
+                                {
+                                    <span class="text-muted">
+                                        Confirm this entry before recording a result.
+                                    </span>
+                                }
+                                else
+                                {
+                                    <form asp-controller="Results"
+                                          asp-action="Save"
+                                          method="post"
+                                          class="row g-2 align-items-center">
+
+                                        @Html.AntiForgeryToken()
+
+                                        <input type="hidden"
+                                               name="EntryId"
+                                               value="@result.EntryId" />
+
+                                        <input type="hidden"
+                                               name="EventId"
+                                               value="@ViewBag.EventId" />
+
+                                        <div class="col-md-4">
+                                            <input type="text"
+                                                   name="FinishTime"
+                                                   class="form-control"
+                                                   placeholder="HH:mm:ss"
+                                                   value="@result.FinishTime" />
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <input type="number"
+                                                   name="FinishPosition"
+                                                   class="form-control"
+                                                   min="1"
+                                                   placeholder="Position"
+                                                   value="@result.FinishPosition" />
+                                        </div>
+
+                                        <div class="col-md-5">
+                                            <button type="submit"
+                                                    class="btn btn-primary btn-sm">
+                                                Save Result
+                                            </button>
+                                        </div>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

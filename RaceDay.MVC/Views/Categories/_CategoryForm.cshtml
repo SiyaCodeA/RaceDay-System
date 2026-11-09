@@ -1,0 +1,67 @@
+﻿@model RaceDay.MVC.ViewModels.CategoryViewModel
+
+<input type="hidden" asp-for="EventId" />
+
+<div class="mb-3">
+    <label asp-for="CategoryName" class="form-label"></label>
+    <input asp-for="CategoryName" class="form-control" />
+    <span asp-validation-for="CategoryName" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="CategoryDescription" class="form-label"></label>
+    <textarea asp-for="CategoryDescription"
+              class="form-control" rows="3"></textarea>
+    <span asp-validation-for="CategoryDescription"
+          class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="CategoryType" class="form-label"></label>
+    <select asp-for="CategoryType" class="form-select" id="categoryType">
+        <option value="Age">Age</option>
+        <option value="Distance">Distance</option>
+    </select>
+    <span asp-validation-for="CategoryType" class="text-danger"></span>
+</div>
+
+<div id="ageFields">
+    <div class="mb-3">
+        <label asp-for="MinAge" class="form-label"></label>
+        <input asp-for="MinAge" type="number" min="0"
+               class="form-control" />
+        <span asp-validation-for="MinAge" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="MaxAge" class="form-label"></label>
+        <input asp-for="MaxAge" type="number" min="0"
+               class="form-control" />
+        <span asp-validation-for="MaxAge" class="text-danger"></span>
+    </div>
+</div>
+
+<div id="distanceFields">
+    <div class="mb-3">
+        <label asp-for="DistanceKm" class="form-label"></label>
+        <input asp-for="DistanceKm" type="number" min="0.01"
+               step="0.01" class="form-control" />
+        <span asp-validation-for="DistanceKm"
+              class="text-danger"></span>
+    </div>
+</div>
+
+<script>
+    function updateCategoryFields() {
+        const type = document.getElementById("categoryType").value;
+        document.getElementById("ageFields").style.display =
+            type === "Age" ? "block" : "none";
+        document.getElementById("distanceFields").style.display =
+            type === "Distance" ? "block" : "none";
+    }
+
+    document.getElementById("categoryType")
+        .addEventListener("change", updateCategoryFields);
+
+    updateCategoryFields();
+</script>

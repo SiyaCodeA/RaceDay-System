@@ -1,0 +1,36 @@
+﻿@model RaceDay.MVC.ViewModels.CategoryViewModel
+
+@{
+    ViewData["Title"] = "Delete Category";
+}
+
+<h2>Delete Category</h2>
+
+<div class="alert alert-warning">
+    Are you sure you want to delete this category?
+    Categories with participant entries cannot be deleted.
+</div>
+
+<dl class="row">
+    <dt class="col-sm-3">Event</dt>
+    <dd class="col-sm-9">@Model.EventName</dd>
+
+    <dt class="col-sm-3">Category</dt>
+    <dd class="col-sm-9">@Model.CategoryName</dd>
+
+    <dt class="col-sm-3">Type</dt>
+    <dd class="col-sm-9">@Model.CategoryType</dd>
+</dl>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" name="id" value="@Model.CategoryId" />
+    <input type="hidden" name="eventId" value="@Model.EventId" />
+
+    <button type="submit" class="btn btn-danger">
+        Confirm Delete
+    </button>
+
+    <a asp-action="Index"
+       asp-route-eventId="@Model.EventId"
+       class="btn btn-secondary">Cancel</a>
+</form>

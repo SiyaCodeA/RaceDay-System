@@ -1,0 +1,29 @@
+﻿@model RaceDay.MVC.ViewModels.CategoryViewModel
+
+@{
+    ViewData["Title"] = "Edit Category";
+}
+
+<h2>Edit Category</h2>
+<p>Event: @Model.EventName</p>
+
+<form asp-action="Edit" asp-route-id="@Model.CategoryId" method="post">
+    <input type="hidden" asp-for="CategoryId" />
+
+    <div asp-validation-summary="ModelOnly"
+         class="text-danger"></div>
+
+    <partial name="_CategoryForm" model="Model" />
+
+    <button type="submit" class="btn btn-primary">
+        Save Changes
+    </button>
+
+    <a asp-action="Index"
+       asp-route-eventId="@Model.EventId"
+       class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

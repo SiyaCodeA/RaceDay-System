@@ -1,3 +1,9 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".dockerignore" />
+  </Folder>
   <Project Path="RaceDay.API/RaceDay.API.csproj" />
+  <Project Path="RaceDay.HashGenerator/RaceDay.HashGenerator.csproj" Id="1b7a746b-65c3-4b58-a6ae-e78b44d64071" />
+  <Project Path="RaceDay.MVC/RaceDay.MVC.csproj" Id="839080df-7375-4879-b439-258545548461" />
+  <Project Path="RaceDay.Tests/RaceDay.Tests.csproj" Id="ea68a2e3-629b-48cb-a94c-c77fb4b517e8" />
 </Solution>

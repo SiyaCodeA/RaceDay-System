@@ -1,0 +1,98 @@
+﻿@model List<RaceDay.MVC.ViewModels.OrganiserEntryViewModel>
+
+@{
+    ViewData["Title"] = "Manage Event Entries";
+}
+
+<div class="container mt-4">
+    <h2>Manage Event Entries</h2>
+    <p class="text-muted">Review and confirm participant registrations.</p>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <a asp-controller="Events" asp-action="Index"
+       class="btn btn-outline-secondary mb-3">
+        Back to Events
+    </a>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            No participants have entered this event yet.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered align-middle">
+                <thead>
+                    <tr>
+                        <th>Participant</th>
+                        <th>Category</th>
+                        <th>Entry Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var entry in Model)
+                    {
+                        <tr>
+                            <td>@entry.ParticipantName</td>
+                            <td>@entry.CategoryName</td>
+                            <td>@entry.EntryDate.ToString("dd MMM yyyy")</td>
+                            <td>
+                                @if (entry.EntryStatus == "Confirmed")
+                                {
+                                    <span class="badge bg-success">Confirmed</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning text-dark">
+                                        @entry.EntryStatus
+                                    </span>
+                                }
+                            </td>
+                            <td>
+                                @if (entry.EntryStatus == "Pending")
+                                {
+                                    <form asp-controller="Entries"
+                                          asp-action="Confirm"
+                                          method="post">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden"
+                                               name="entryId"
+                                               value="@entry.EntryId" />
+                                        <input type="hidden"
+                                               name="eventId"
+                                               value="@ViewBag.EventId" />
+                                        <button type="submit"
+                                                class="btn btn-sm btn-success">
+                                            Confirm Entry
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <span class="text-success">Confirmed</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

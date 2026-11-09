@@ -1,0 +1,90 @@
+﻿@model List<RaceDay.MVC.ViewModels.CategoryViewModel>
+
+@{
+    ViewData["Title"] = "Event Categories";
+}
+
+<h2>Categories – @ViewBag.EventName</h2>
+
+<p>Manage the age groups and distances available for this event.</p>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<a asp-action="Create"
+   asp-route-eventId="@ViewBag.EventId"
+   class="btn btn-primary mb-3">
+    Add Category
+</a>
+
+<a asp-controller="Events"
+   asp-action="Index"
+   class="btn btn-secondary mb-3">
+    Back to Events
+</a>
+
+@if (!Model.Any())
+{
+    <p>No categories have been added to this event yet.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Age range</th>
+                <th>Distance</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in Model)
+            {
+                <tr>
+                    <td>@category.CategoryName</td>
+                    <td>@category.CategoryType</td>
+                    <td>
+                        @if (category.CategoryType == "Age")
+                        {
+                            @($"{category.MinAge} – {category.MaxAge}")
+                        }
+                        else
+                        {
+                            <span>—</span>
+                        }
+                    </td>
+                    <td>
+                        @if (category.DistanceKm.HasValue)
+                        {
+                            @($"{category.DistanceKm} km")
+                        }
+                        else
+                        {
+                            <span>—</span>
+                        }
+                    </td>
+                    <td>@category.CategoryDescription</td>
+                    <td>
+                        <a asp-action="Edit"
+                           asp-route-id="@category.CategoryId"
+                           class="btn btn-sm btn-warning">Edit</a>
+
+                        <a asp-action="Delete"
+                           asp-route-id="@category.CategoryId"
+                           class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

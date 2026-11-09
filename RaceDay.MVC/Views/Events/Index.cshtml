@@ -1,0 +1,161 @@
+﻿@model List<RaceDay.MVC.ViewModels.EventViewModel>
+
+@{
+    ViewData["Title"] = "Race Events";
+
+    bool isOrganiser = ViewBag.IsOrganiser == true;
+    int currentAccountId = ViewBag.AccountId ?? 0;
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>Race Events</h2>
+            <p class="text-muted">
+                Discover and explore RaceDay events.
+            </p>
+        </div>
+
+        @if (isOrganiser)
+        {
+            <a asp-action="Create" class="btn btn-primary">
+                + Create Event
+            </a>
+        }
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            No events are currently available.
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+
+            @foreach (var raceEvent in Model)
+            {
+                bool canManage =
+                    isOrganiser &&
+                    raceEvent.AccountId == currentAccountId;
+
+                <div class="col-md-6 col-lg-4">
+
+                    <div class="card shadow-sm h-100">
+
+                        @if (!string.IsNullOrWhiteSpace(raceEvent.BannerImageUrl))
+                        {
+                            <img src="@raceEvent.BannerImageUrl"
+                                 class="card-img-top"
+                                 alt="@raceEvent.EventName"
+                                 style="height:190px; object-fit:cover;" />
+                        }
+
+                        <div class="card-body">
+
+                            <h5 class="card-title">
+                                @raceEvent.EventName
+                            </h5>
+
+                            <p class="text-muted">
+                                @raceEvent.EventDescription
+                            </p>
+
+                            <p>
+                                <strong>Date:</strong>
+                                @raceEvent.EventDate.ToString("dd MMMM yyyy")
+                            </p>
+
+                            <p>
+                                <strong>Location:</strong>
+                                @raceEvent.Location
+                            </p>
+
+                            <p>
+                                <strong>Event type:</strong>
+                                @raceEvent.EventType
+                            </p>
+
+                            <a asp-action="Details"
+                               asp-route-id="@raceEvent.EventId"
+                               class="btn btn-primary btn-sm">
+                                View Details
+                            </a>
+
+                            @if (canManage)
+                            {
+                                <hr />
+
+                                <div class="d-flex gap-2">
+                                    <a asp-action="Edit"
+                                       asp-route-id="@raceEvent.EventId"
+                                       class="btn btn-outline-primary btn-sm">
+                                        Edit
+                                    </a>
+
+                                    <a asp-action="Delete"
+                                       asp-route-id="@raceEvent.EventId"
+                                       class="btn btn-outline-danger btn-sm">
+                                        Delete
+                                    </a>
+
+<a asp-controller="Categories"
+   asp-action="Index"
+   asp-route-eventId="@raceEvent.EventId"
+   class="btn btn-sm btn-info">
+    Categories
+</a>
+
+
+                                    <a asp-controller="Entries"
+                                       asp-action="ForEvent"
+                                       asp-route-eventId="@raceEvent.EventId"
+                                       class="btn btn-sm btn-success">
+                                        Entries
+                                    </a>
+
+
+
+                                    <a asp-controller="Results"
+                                       asp-action="Event"
+                                       asp-route-eventId="@raceEvent.EventId"
+                                       class="btn btn-sm btn-primary">
+                                        Results
+                                    </a>
+
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>

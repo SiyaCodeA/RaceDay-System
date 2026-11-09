@@ -1,0 +1,110 @@
+﻿@model List<RaceDay.MVC.ViewModels.EntryViewModel>
+
+@{
+    ViewData["Title"] = "My Entries";
+}
+
+<div class="container mt-4">
+
+    <h2>My Entries</h2>
+
+    <p class="text-muted">
+        View the events you have registered for and check your entry status.
+    </p>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            You have not entered any events yet.
+
+            <a asp-controller="Events" asp-action="Index">
+                Browse available events
+            </a>.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-hover">
+
+                <thead class="table-light">
+                    <tr>
+                        <th>Event</th>
+                        <th>Date</th>
+                        <th>Location</th>
+                        <th>Category</th>
+                        <th>Entry Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var entry in Model)
+                    {
+                        <tr>
+                            <td>@entry.EventName</td>
+
+                            <td>
+                                @entry.EventDate.ToString("dd MMM yyyy")
+                            </td>
+
+                            <td>@entry.Location</td>
+
+                            <td>@entry.CategoryName</td>
+
+                            <td>
+                                @entry.EntryDate.ToString("dd MMM yyyy")
+                            </td>
+
+                            <td>
+                                @if (entry.EntryStatus == "Confirmed")
+                                {
+                                    <span class="badge bg-success">
+                                        Confirmed
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning text-dark">
+                                        @entry.EntryStatus
+                                    </span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+
+        </div>
+    }
+
+    <a asp-controller="Events"
+       asp-action="Index"
+       class="btn btn-outline-primary mt-3">
+        Browse Events
+    </a>
+
+</div>

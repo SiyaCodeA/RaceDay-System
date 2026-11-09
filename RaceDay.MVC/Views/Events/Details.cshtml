@@ -1,0 +1,184 @@
+﻿@model RaceDay.MVC.ViewModels.EventDetailsViewModel
+
+@{
+    ViewData["Title"] = "Event Details";
+}
+
+<div class="container mt-4">
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+
+    <a asp-action="Index" class="btn btn-outline-secondary btn-sm mb-3">
+        Back to Events
+    </a>
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-warning">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
+    <div class="card shadow-sm mb-4">
+
+        @if (!string.IsNullOrWhiteSpace(Model.Event.BannerImageUrl))
+        {
+            <img src="@Model.Event.BannerImageUrl"
+                 class="card-img-top"
+                 alt="@Model.Event.EventName"
+                 style="height:260px; object-fit:cover;" />
+        }
+
+        <div class="card-body">
+
+            <h2>@Model.Event.EventName</h2>
+
+            <p>@Model.Event.EventDescription</p>
+
+            <p>
+                <strong>Date:</strong>
+                @Model.Event.EventDate.ToString("dd MMMM yyyy")
+            </p>
+
+            <p>
+                <strong>Location:</strong>
+                @Model.Event.Location
+            </p>
+
+            <p>
+                <strong>Event type:</strong>
+                @Model.Event.EventType
+            </p>
+
+        </div>
+    </div>
+
+    <h4 class="mb-3">Available Categories</h4>
+
+    @if (Model.Categories == null || !Model.Categories.Any())
+    {
+        <div class="alert alert-info">
+            No categories have been added to this event yet.
+        </div>
+    }
+    else
+    {
+        <div class="row g-3 mb-4">
+
+            @foreach (var category in Model.Categories)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+
+                            <h5>@category.CategoryName</h5>
+
+                            <p>
+                                @category.CategoryDescription
+                            </p>
+
+                            @if (category.CategoryType == "Age")
+                            {
+                                <p>
+                                    <strong>Age range:</strong>
+                                    @category.MinAge – @category.MaxAge
+                                </p>
+                            }
+                            else
+                            {
+                                <p>
+                                    <strong>Distance:</strong>
+                                    @category.DistanceKm km
+                                </p>
+                            }
+
+                            <span class="badge bg-secondary">
+                                @category.CategoryType
+                            </span>
+
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    }
+
+    @if (ViewBag.IsParticipant == true)
+    {
+        @if (Model.Categories != null && Model.Categories.Any())
+        {
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+
+                    <h4>Enter This Event</h4>
+
+                    <p class="text-muted">
+                        Select the category that applies to you.
+                    </p>
+
+                    <form asp-controller="Entries"
+                          asp-action="Create"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden"
+                               name="EventId"
+                               value="@Model.Event.EventId" />
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                Select category
+                            </label>
+
+                            <select name="CategoryId"
+                                    class="form-select"
+                                    required>
+
+                                <option value="">
+                                    -- Choose a category --
+                                </option>
+
+                                @foreach (var category in Model.Categories)
+                                {
+                                    <option value="@category.CategoryId">
+                                        @category.CategoryName
+                                    </option>
+                                }
+
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-success">
+                            Enter Event
+                        </button>
+
+                    </form>
+
+                </div>
+            </div>
+        }
+    }
+    else if (ViewBag.IsOrganiser != true)
+    {
+        <div class="alert alert-info">
+            Please log in as a participant to enter this event.
+            <a asp-controller="Auth" asp-action="Login">Log in here</a>.
+        </div>
+    }
+
+</div>
