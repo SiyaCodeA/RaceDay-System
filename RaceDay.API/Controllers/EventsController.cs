@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using RaceDay.API.Models;
 using RaceDay.API.Services;
 
@@ -12,17 +13,19 @@ namespace RaceDay.API.Controllers;
 public class EventsController : ControllerBase
 {
     private readonly RaceDayContext _context;
-
     private readonly BlobStorageService _blobStorage;
 
+    // Used by ASP.NET Core dependency injection
+    [ActivatorUtilitiesConstructor]
     public EventsController(
-    RaceDayContext context,
-    BlobStorageService blobStorage)
+        RaceDayContext context,
+        BlobStorageService blobStorage)
     {
         _context = context;
         _blobStorage = blobStorage;
     }
 
+    // Used by existing controller tests
     public EventsController(RaceDayContext context)
     {
         _context = context;
@@ -93,15 +96,17 @@ public class EventsController : ControllerBase
         request.EventId = 0;
         request.AccountId = organiserId.Value;
 
-
-
         _context.Events.Add(request);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction(nameof(GetEvent), new { id = request.EventId },
-            new { message = "Event created successfully.", eventId = request.EventId });
-
-
+        return CreatedAtAction(
+            nameof(GetEvent),
+            new { id = request.EventId },
+            new
+            {
+                message = "Event created successfully.",
+                eventId = request.EventId
+            });
     }
 
     // PUT: api/Events/5
@@ -204,7 +209,4 @@ public class EventsController : ControllerBase
             return BadRequest(new { message = ex.Message });
         }
     }
-
 }
-
-

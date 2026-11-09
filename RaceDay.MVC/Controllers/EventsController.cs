@@ -158,8 +158,12 @@ public class EventsController : Controller
 
                 if (!uploadResponse.IsSuccessStatusCode)
                 {
+                    var uploadError =
+                        await uploadResponse.Content.ReadAsStringAsync();
+
                     TempData["ErrorMessage"] =
-                        "The event was created, but the banner upload failed. You can try again later.";
+                        "Event details were updated, but the banner upload failed: "
+                        + uploadError;
 
                     return RedirectToAction(nameof(Index));
                 }

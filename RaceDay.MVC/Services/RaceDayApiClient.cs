@@ -114,10 +114,12 @@ public class RaceDayApiClient
     }
 
 
-    public async Task<HttpResponseMessage> UploadEventBannerAsync(
-    int eventId,
-    IFormFile bannerImage)
+    public async Task<HttpResponseMessage> UploadEventBannerAsync(int eventId, IFormFile bannerImage)
     {
+        using var request = new HttpRequestMessage(
+            HttpMethod.Post,
+            $"api/Events/{eventId}/banner");
+
         using var content = new MultipartFormDataContent();
 
         await using var stream = bannerImage.OpenReadStream();
@@ -129,8 +131,22 @@ public class RaceDayApiClient
 
         content.Add(fileContent, "file", bannerImage.FileName);
 
-        return await _httpClient.PostAsync(
-            $"api/Events/{eventId}/banner",
-            content);
+        request.Content = content;
+
+        var context = _httpContextAccessor.HttpContext;
+        var apiCookie = context?.Session.GetString(ApiCookieKey);
+
+        if (!string.IsNullOrWhiteSpace(apiCookie))
+        {
+            request.Headers.TryAddWithoutValidation("Cookie", apiCookie);
+        }
+
+        var response = await _httpClient.SendAsync(request);
+
+        SaveApiSessionCookie(response);
+
+        return response;
     }
+
+
 }
