@@ -96,6 +96,43 @@ public class AuthController : ControllerBase
         return Ok(new { message = "Logout successful." });
     }
 
+    [HttpGet("profile")]
+    public async Task<IActionResult> Profile()
+    {
+        var accountId = HttpContext.Session.GetInt32("AccountId");
+
+        if (!accountId.HasValue)
+        {
+            return Unauthorized(new
+            {
+                message = "Please log in to view your profile."
+            });
+        }
+
+        var account = await _context.Accounts.FindAsync(accountId.Value);
+
+        if (account == null)
+        {
+            return NotFound(new
+            {
+                message = "Account not found."
+            });
+        }
+
+        return Ok(new
+        {
+            accountId = account.AccountId,
+            firstName = account.FirstName,
+            lastName = account.LastName,
+            email = account.Email,
+            phoneNumber = account.PhoneNumber,
+            role = account.Role
+        });
+    }
+
+
+
+
     [Authorize]
     [HttpGet("me")]
     public IActionResult Me()

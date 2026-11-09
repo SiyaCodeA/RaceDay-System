@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Participant Dashboard";
 }
 
@@ -15,7 +16,9 @@
                     <p>Discover upcoming races and events.</p>
                     <a class="btn btn-primary"
                        asp-controller="Events"
-                       asp-action="Index">Explore Events</a>
+                       asp-action="Index">
+                        Explore Events
+                    </a>
                 </div>
             </div>
         </div>
@@ -25,15 +28,11 @@
                 <div class="card-body">
                     <h5>My Entries</h5>
                     <p>View the events you have entered.</p>
-
-
                     <a asp-controller="Entries"
                        asp-action="MyEntries"
                        class="btn btn-primary">
                         My Entries
                     </a>
-
-
                 </div>
             </div>
         </div>
@@ -43,14 +42,25 @@
                 <div class="card-body">
                     <h5>My Results</h5>
                     <p>View your race performance and results.</p>
-
                     <a class="btn btn-outline-primary"
                        asp-controller="Results"
                        asp-action="MyResults">
                         View My Results
                     </a>
+                </div>
+            </div>
+        </div>
 
-
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5>My Profile</h5>
+                    <p>View your personal and account information.</p>
+                    <a class="btn btn-outline-primary"
+                       asp-controller="Participant"
+                       asp-action="Profile">
+                        View Profile
+                    </a>
                 </div>
             </div>
         </div>

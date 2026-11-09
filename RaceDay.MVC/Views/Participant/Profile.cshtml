@@ -1,0 +1,68 @@
+﻿
+@model RaceDay.MVC.ViewModels.ParticipantProfileViewModel
+
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<div class="container mt-4">
+    <h2>My Profile</h2>
+
+    <p class="text-muted">
+        View your RaceDay account information.
+    </p>
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm mt-3">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">Personal Information</h5>
+            </div>
+
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">First Name</div>
+                    <div class="col-md-8">@Model.FirstName</div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Last Name</div>
+                    <div class="col-md-8">@Model.LastName</div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Email Address</div>
+                    <div class="col-md-8">@Model.Email</div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Phone Number</div>
+                    <div class="col-md-8">
+                        @(Model.PhoneNumber ?? "Not provided")
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Account Role</div>
+                    <div class="col-md-8">
+                        <span class="badge bg-primary">
+                            @Model.Role
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <a asp-controller="Participant"
+       asp-action="Index"
+       class="btn btn-outline-secondary mt-3">
+        Back to Dashboard
+    </a>
+</div>
