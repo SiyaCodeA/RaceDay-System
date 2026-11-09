@@ -289,59 +289,6 @@ The validation workflow checks that the required ERD, API Endpoint Plan, SQL dat
 The successful workflow execution provides evidence that the Part One repository validation completed successfully.
 
 ---
-## Part Three – MVC Application and Cloud Integration
-
-Part Three extends the RaceDay REST API into a user-facing ASP.NET Core MVC web application. The MVC application communicates with the REST API through HTTP requests, while the API manages database operations.
-
-### MVC Application Features
-
-**Authentication and Navigation**
-- Login functionality for Organisers and Participants.
-- Role-based access and navigation.
-- Separate dashboards for each user role.
-
-**Organiser Functionality**
-- Create, view, update and delete race events.
-- Manage event categories.
-- View and manage participant entries.
-- Record and manage participant results.
-
-**Participant Functionality**
-- Browse available race events.
-- View event details and categories.
-- Enter events.
-- View personal entries and entry statuses.
-- View recorded results and performance history.
-
-### Cloud Storage
-
-Microsoft Azure Blob Storage is configured to store event banner images. The application uses an Azure Storage Account and an `event-banners` container, with the API responsible for handling image uploads.
-
-### Docker and Continuous Integration
-
-Dockerfiles are included for the RaceDay API and MVC applications. GitHub Actions validates the Docker image builds and the project workflows.
-
-### Technologies Used
-
-- C#
-- ASP.NET Core MVC
-- ASP.NET Core Web API
-- Entity Framework Core
-- SQL Server
-- Microsoft Azure Blob Storage
-- Docker
-- GitHub and GitHub Actions
-- Visual Studio
-
-### Part Three Setup and Configuration
-
-The MVC application communicates with the RaceDay API. Both projects must be configured and running for local application functionality.
-
-Azure Blob Storage requires a valid storage connection string and container configuration. Sensitive credentials must be configured using development secrets or environment variables and must never be committed to GitHub.
-
-Docker image builds are validated through GitHub Actions.
-
----
 
 ## Presentation
 
@@ -373,3 +320,143 @@ The presentation covers:
 - The supporting evidence available in the repository.
 
 **Part Two YouTube Link:** [RaceDay Part 2 Presentation](https://youtu.be/3WTatosfY_E)
+
+---
+## Part Three – MVC Application and Cloud Integration
+
+Part Three extends the RaceDay REST API into a user-facing ASP.NET Core MVC web application. The MVC application communicates with the REST API through HTTP requests, while the API manages database operations.
+
+### MVC Application Features
+
+**Authentication and Navigation**
+- Login functionality for Organisers and Participants.
+- Role-based access and navigation.
+- Separate dashboards for each user role.
+
+**Organiser Functionality**
+- Create, view, update and delete race events.
+- Manage event categories.
+- View and manage participant entries.
+- Record and manage participant results.
+
+**Participant Functionality**
+- Browse available race events.
+- View event details and categories.
+- Enter events.
+- View personal entries and entry statuses.
+- View recorded results and performance history.
+
+### Cloud Storage
+
+Microsoft Azure Blob Storage is configured to store event banner images. The application uses an Azure Storage Account and an `event-banners` container, with the API responsible for handling image uploads.
+
+
+### Docker and Continuous Integration
+
+The RaceDay application includes separate Dockerfiles for the ASP.NET Core Web API and MVC applications.
+
+**Docker Images**
+
+The API and MVC Docker images can be built from the repository root:
+
+```bash
+docker build -f RaceDay.API/Dockerfile -t raceday-api:latest .
+docker build -f RaceDay.MVC/Dockerfile -t raceday-mvc:latest .
+```
+
+**Running the Containers**
+
+Create a Docker network so that the MVC container can communicate with the API container:
+
+```bash
+docker network create raceday-network
+```
+
+Start the API container:
+
+```bash
+docker run -d \
+  --name raceday-api \
+  --network raceday-network \
+  -p 8081:8080 \
+  -e ASPNETCORE_ENVIRONMENT=Development \
+  -e ConnectionStrings__DefaultConnection="Server=<SQL_SERVER_HOST>,<SQL_PORT>;Database=RaceDayDB;User Id=<SQL_USERNAME>;Password=<SQL_PASSWORD>;TrustServerCertificate=True;Encrypt=False;" \
+  -e BlobStorage__ConnectionString="<AZURE_STORAGE_CONNECTION_STRING>" \
+  -e BlobStorage__ContainerName="event-banners" \
+  raceday-api:latest
+```
+
+Start the MVC container:
+
+```bash
+docker run -d \
+  --name raceday-mvc \
+  --network raceday-network \
+  -p 8082:8080 \
+  -e ApiSettings__BaseUrl=http://raceday-api:8080/ \
+  raceday-mvc:latest
+```
+
+**Accessing the Applications**
+
+After both containers have started:
+
+- MVC application: http://localhost:8082
+- API Swagger documentation: http://localhost:8081/swagger
+
+**Database and Cloud Configuration**
+
+The API container requires a SQL Server connection string that can reach the database from inside Docker. Replace the SQL Server placeholders in the command with the appropriate connection details. The SQL Server must be configured to accept the chosen network connection.
+
+Azure Blob Storage settings are supplied through environment variables. Replace the Azure connection-string placeholder with a valid storage connection string when cloud image uploads are required.
+
+Do not commit database passwords, Azure connection strings or other sensitive credentials to the repository.
+
+**Container Verification**
+
+Use the following command to check the running containers:
+
+```bash
+docker ps
+```
+
+To view application logs:
+
+```bash
+docker logs raceday-api
+docker logs raceday-mvc
+```
+
+To stop the containers:
+
+```bash
+docker stop raceday-mvc raceday-api
+```
+
+**GitHub Actions**
+
+The GitHub Actions workflow at `.github/workflows/docker-build.yml` automatically builds both Docker images and performs runtime checks on the API Swagger page and MVC login page.
+
+The successful workflow confirms that both containers can start and respond to HTTP requests. It does not perform a full SQL Server database integration test.
+
+
+### Technologies Used
+
+- C#
+- ASP.NET Core MVC
+- ASP.NET Core Web API
+- Entity Framework Core
+- SQL Server
+- Microsoft Azure Blob Storage
+- Docker
+- GitHub and GitHub Actions
+- Visual Studio
+
+### Part Three Setup and Configuration
+
+The MVC application communicates with the RaceDay API. Both projects must be configured and running for local application functionality.
+
+Azure Blob Storage requires a valid storage connection string and container configuration. Sensitive credentials must be configured using development secrets or environment variables and must never be committed to GitHub.
+
+GitHub Actions builds both Docker images and verifies that the API and MVC containers start and respond successfully. A separate database integration test is not included in this workflow.
+--
