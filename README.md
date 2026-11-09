@@ -454,9 +454,78 @@ The successful workflow confirms that both containers can start and respond to H
 
 ### Part Three Setup and Configuration
 
-The MVC application communicates with the RaceDay API. Both projects must be configured and running for local application functionality.
+The MVC application communicates with the RaceDay API. Both projects must be configured and running for the full application to work.
 
-Azure Blob Storage requires a valid storage connection string and container configuration. Sensitive credentials must be configured using development secrets or environment variables and must never be committed to GitHub.
+### Running the Application Locally
 
-GitHub Actions builds both Docker images and verifies that the API and MVC containers start and respond successfully. A separate database integration test is not included in this workflow.
+The application can be run locally using Visual Studio and SQL Server Express.
+
+**Prerequisites**
+
+- Visual Studio with ASP.NET and web development support.
+- .NET SDK compatible with the solution.
+- SQL Server Express and SQL Server Management Studio (SSMS).
+- Access to an Azure Storage account for event banner uploads.
+
+**Database Configuration**
+
+1. Open the solution in Visual Studio.
+2. Ensure that the `RaceDayDB` database has been created using the SQL script in `docs/SQL/RaceDayDatabase.sql`.
+3. Check the API database connection string and update the SQL Server instance name to match your local environment.
+4. Keep local database credentials and connection details out of the public repository.
+
+**Azure Blob Storage Configuration**
+
+The API uses Azure Blob Storage to store event banner images.
+
+1. Open the `RaceDay.API` project in Visual Studio.
+2. Right-click the project and select **Manage User Secrets**.
+3. Add your Azure Storage connection string to the User Secrets file:
+
+```json
+{
+  "BlobStorage": {
+    "ConnectionString": "YOUR_AZURE_STORAGE_CONNECTION_STRING"
+  }
+}
+```
+
+4. Ensure that the storage container is named `event-banners`. The container must be configured to allow blob-level anonymous read access so uploaded event banners can display in the application.
+
+Do not commit connection strings, passwords, or other sensitive credentials to GitHub.
+
+**Starting the Application**
+
+1. Open the RaceDay solution in Visual Studio.
+2. Configure the solution to start both `RaceDay.API` and `RaceDay.MVC` as multiple startup projects.
+3. Start the solution.
+4. Open the MVC application in your browser using its HTTPS launch address:
+
+`https://localhost:7297`
+
+5. To access the login page directly, use:
+
+`https://localhost:7297/Auth/Login`
+
+6. The API Swagger documentation is available at:
+
+`https://localhost:7087/swagger`
+
+If your Visual Studio launch profiles use different ports, use the addresses shown in the launch output.
+
+**Using the Application**
+
+- Organisers can sign in using an Organiser account configured in the local database to manage events and related information.
+- Participants can register for an account or sign in using an existing Participant account.
+- After signing in, the available navigation options and functionality depend on the user's role.
+
+### Part Three Presentation
+
+YouTube presentation: **[Part Three Presentation – Link to be added after recording](ADD_PART_THREE_YOUTUBE_LINK_HERE)**
+
+### Part Three Final Notes
+
+GitHub Actions builds the API and MVC Docker images and verifies that the containers start and respond successfully. The workflow includes application smoke tests; it does not perform a separate database integration test.
+
+Azure Storage credentials and other sensitive configuration must be supplied locally and must never be committed to the repository.
 --
