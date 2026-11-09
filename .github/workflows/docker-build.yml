@@ -5,6 +5,83 @@ on:
   push:
     branches:
       - main
+name: RaceDay Docker Build and Runtime Verification
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  docker-build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build API Docker image
+        run: docker build -f RaceDay.API/Dockerfile -t raceday-api:ci .
+
+      - name: Build MVC Docker image
+        run: docker build -f RaceDay.MVC/Dockerfile -t raceday-mvc:ci .
+
+      - name: Create Docker network
+        run: docker network create raceday-network
+
+      - name: Start RaceDay API container
+        run: |
+          docker run -d \
+            --name raceday-api \
+            --network raceday-network \
+            -p 8081:8080 \
+            -e ASPNETCORE_ENVIRONMENT=Development \
+            -e ConnectionStrings__DefaultConnection="Server=localhost;Database=RaceDayDB;User Id=sa;Password=TestOnly_Password123!;TrustServerCertificate=True;Encrypt=False;" \
+            raceday-api:ci
+
+      - name: Verify API container
+        run: |
+          for i in {1..30}; do
+            if curl --fail --silent http://localhost:8081/swagger/index.html; then
+              echo "API container started and Swagger responded successfully."
+              exit 0
+            fi
+            echo "Waiting for API container..."
+            sleep 2
+          done
+          echo "API container did not respond."
+          docker logs raceday-api
+          exit 1
+
+      - name: Start RaceDay MVC container
+        run: |
+          docker run -d \
+            --name raceday-mvc \
+            --network raceday-network \
+            -p 8082:8080 \
+            -e ApiSettings__BaseUrl=http://raceday-api:8080/ \
+            raceday-mvc:ci
+
+      - name: Verify MVC container
+        run: |
+          for i in {1..30}; do
+            if curl --fail --silent http://localhost:8082/Auth/Login; then
+              echo "MVC container started and the login page responded successfully."
+              exit 0
+            fi
+            echo "Waiting for MVC container..."
+            sleep 2
+          done
+          echo "MVC container did not respond."
+          docker logs raceday-mvc
+          exit 1
+
+      - name: Display container status
+        run: docker ps -a
+
   pull_request:
     branches:
       - main
