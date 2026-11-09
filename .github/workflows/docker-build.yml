@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build API Docker image
-        run: docker build -f RaceDay.API/Dockerfile -t raceday-api:ci .
+        run: docker build -f src/RaceDay.API/Dockerfile -t raceday-api:ci .
 
       - name: Build MVC Docker image
-        run: docker build -f RaceDay.MVC/Dockerfile -t raceday-mvc:ci .
+        run: docker build -f src/RaceDay.MVC/Dockerfile -t raceday-mvc:ci .
