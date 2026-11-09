@@ -1,31 +1,277 @@
-html {
-  font-size: 14px;
+
+/* =========================================
+   RACEDAY - GLOBAL DESIGN THEME
+   ========================================= */
+
+:root {
+    --raceday-dark: #18252b;
+    --raceday-dark-soft: #26383e;
+    --raceday-green: #16866d;
+    --raceday-green-hover: #116b57;
+    --raceday-lime: #c7e66b;
+    --raceday-background: #f3f5f2;
+    --raceday-surface: #ffffff;
+    --raceday-text: #253238;
+    --raceday-muted: #718087;
+    --raceday-border: #e2e8e4;
+    --raceday-shadow: 0 8px 24px rgba(24, 37, 43, 0.07);
 }
 
-@media (min-width: 768px) {
-  html {
+html {
     font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    min-height: 100%;
+    position: relative;
 }
 
 body {
-  margin-bottom: 60px;
+    margin: 0;
+    margin-bottom: 75px;
+    background-color: var(--raceday-background);
+    color: var(--raceday-text);
+    font-family: "Segoe UI", Arial, sans-serif;
+    line-height: 1.6;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+/* Headings */
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--raceday-dark);
+    font-weight: 700;
+    letter-spacing: -0.3px;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+h2 {
+    margin-bottom: 0.6rem;
+}
+
+/* Links */
+
+a {
+    color: var(--raceday-green);
+    text-decoration: none;
+}
+
+    a:hover {
+        color: var(--raceday-green-hover);
+    }
+
+/* Navigation */
+
+.navbar {
+    background-color: var(--raceday-dark) !important;
+    border-bottom: 3px solid var(--raceday-green);
+    padding: 0.9rem 1.5rem;
+}
+
+.navbar-brand {
+    color: #ffffff !important;
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+    .navbar-brand:hover {
+        color: var(--raceday-lime) !important;
+    }
+
+.navbar .nav-link {
+    color: #dce5e2 !important;
+    font-weight: 600;
+    padding: 0.65rem 1rem !important;
+    transition: color 0.2s ease;
+}
+
+    .navbar .nav-link:hover {
+        color: var(--raceday-lime) !important;
+    }
+
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+.navbar-toggler-icon {
+    filter: invert(1);
+}
+
+/* Main page container */
+
+main {
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
+}
+
+/* Dashboard introduction */
+
+.dashboard-header {
+    background: linear-gradient(120deg, #18252b, #263f43);
+    color: #ffffff;
+    padding: 2rem;
+    border-radius: 16px;
+    margin-bottom: 1.8rem;
+    box-shadow: var(--raceday-shadow);
+}
+
+    .dashboard-header h1,
+    .dashboard-header h2 {
+        color: #ffffff;
+    }
+
+    .dashboard-header p {
+        color: #d5e2dd;
+        margin-bottom: 0;
+    }
+
+/* Cards */
+
+.card {
+    background-color: var(--raceday-surface);
+    border: 1px solid var(--raceday-border);
+    border-radius: 14px;
+    box-shadow: var(--raceday-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 28px rgba(24, 37, 43, 0.11);
+    }
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card h5 {
+    font-weight: 700;
+    margin-bottom: 0.7rem;
+}
+
+.card p {
+    color: var(--raceday-muted);
+}
+
+/* Buttons */
+
+.btn {
+    border-radius: 8px;
+    font-weight: 600;
+    padding: 0.6rem 1.15rem;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+.btn-primary {
+    color: #ffffff;
+    background-color: var(--raceday-green);
+    border-color: var(--raceday-green);
+}
+
+    .btn-primary:hover,
+    .btn-primary:focus {
+        color: #ffffff;
+        background-color: var(--raceday-green-hover);
+        border-color: var(--raceday-green-hover);
+    }
+
+.btn-outline-primary {
+    color: var(--raceday-green);
+    border-color: var(--raceday-green);
+}
+
+    .btn-outline-primary:hover {
+        color: #ffffff;
+        background-color: var(--raceday-green);
+        border-color: var(--raceday-green);
+    }
+
+/* Forms */
+
+.form-control,
+.form-select {
+    border: 1px solid #d5dfda;
+    border-radius: 8px;
+    padding: 0.7rem 0.85rem;
+}
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: var(--raceday-green);
+        box-shadow: 0 0 0 0.2rem rgba(22, 134, 109, 0.15);
+    }
+
+.form-label {
+    color: var(--raceday-dark);
+    font-weight: 600;
+}
+
+/* Tables */
+
+.table {
+    background-color: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+    .table thead th {
+        background-color: var(--raceday-dark);
+        color: #ffffff;
+        border-bottom: none;
+        font-weight: 600;
+        padding: 0.9rem;
+    }
+
+    .table tbody td {
+        padding: 0.85rem;
+        vertical-align: middle;
+    }
+
+/* Alerts */
+
+.alert {
+    border-radius: 10px;
+}
+
+/* Footer */
+
+footer.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+    background-color: #ffffff;
+    border-top: 1px solid var(--raceday-border);
+}
+
+/* Accessibility and focus */
+
+.btn:focus,
+.btn:active:focus,
+a:focus,
+.form-control:focus,
+.form-select:focus {
+    outline: none;
+}
+
+/* Responsive adjustments */
+
+@media (max-width: 767px) {
+    .dashboard-header {
+        padding: 1.4rem;
+    }
+
+    .card-body {
+        padding: 1.2rem;
+    }
+
+    .navbar {
+        padding: 0.75rem 1rem;
+    }
+
+    main {
+        padding-top: 1rem;
+    }
 }

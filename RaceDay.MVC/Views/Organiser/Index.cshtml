@@ -1,65 +1,77 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Organiser Dashboard";
 }
 
 <div class="container mt-4">
-    <h2>Welcome, @ViewBag.FirstName!</h2>
-    <p class="text-muted">Your RaceDay Organiser Dashboard</p>
+
+    <section class="dashboard-header">
+        <p class="text-uppercase fw-semibold mb-2">Organiser workspace</p>
+        <h1>Welcome, @ViewBag.FirstName!</h1>
+        <p>Manage your race events, participants and results from one place.</p>
+    </section>
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+        <div>
+            <h2>Management Overview</h2>
+            <p class="text-muted mb-0">Choose an area to manage your RaceDay activities.</p>
+        </div>
+    </div>
 
     <div class="row g-4 mt-2">
 
-        <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column">
                     <h5>Manage Events</h5>
-                    <p>Create, update and manage race events.</p>
-                    <a class="btn btn-primary"
-                       asp-controller="Events"
-                       asp-action="Index">
-                        Manage Events
-                    </a>
+                    <p>Create, update and manage your race events.</p>
+                    <div class="mt-auto">
+                        <a class="btn btn-primary"
+                           asp-controller="Events"
+                           asp-action="Index">Manage Events</a>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column">
                     <h5>Categories</h5>
                     <p>Add and edit categories for your events.</p>
-                    <a class="btn btn-outline-primary"
-                       asp-controller="Events"
-                       asp-action="Index">
-                        Manage Categories
-                    </a>
+                    <div class="mt-auto">
+                        <a class="btn btn-outline-primary"
+                           asp-controller="Events"
+                           asp-action="Index">Manage Categories</a>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column">
                     <h5>Manage Entries</h5>
                     <p>View participants and confirm event entries.</p>
-                    <a class="btn btn-outline-primary"
-                       asp-controller="Events"
-                       asp-action="Index">
-                        View Event Entries
-                    </a>
+                    <div class="mt-auto">
+                        <a class="btn btn-outline-primary"
+                           asp-controller="Events"
+                           asp-action="Index">View Event Entries</a>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column">
                     <h5>Results</h5>
                     <p>Record and update participant race results.</p>
-                    <a class="btn btn-outline-primary"
-                       asp-controller="Results"
-                       asp-action="Index">
-                        Manage Results
-                    </a>
+                    <div class="mt-auto">
+                        <a class="btn btn-outline-primary"
+                           asp-controller="Results"
+                           asp-action="Index">Manage Results</a>
+                    </div>
                 </div>
             </div>
         </div>

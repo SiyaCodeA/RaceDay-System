@@ -4,63 +4,72 @@
 }
 
 <div class="container mt-4">
-    <h2>Welcome, @ViewBag.FirstName!</h2>
-    <p class="text-muted">Your RaceDay Participant Dashboard</p>
+
+    <section class="dashboard-header">
+        <p class="text-uppercase fw-semibold mb-2">Participant workspace</p>
+        <h1>Welcome, @ViewBag.FirstName!</h1>
+        <p>Discover race events, manage your entries and keep track of your results.</p>
+    </section>
+
+    <div class="mb-3">
+        <h2>Your RaceDay Activities</h2>
+        <p class="text-muted mb-0">Select an area to continue.</p>
+    </div>
 
     <div class="row g-4 mt-2">
 
-        <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column">
                     <h5>Browse Events</h5>
-                    <p>Discover upcoming races and events.</p>
-                    <a class="btn btn-primary"
-                       asp-controller="Events"
-                       asp-action="Index">
-                        Explore Events
-                    </a>
+                    <p>Explore available races and view event details.</p>
+                    <div class="mt-auto">
+                        <a class="btn btn-primary"
+                           asp-controller="Events"
+                           asp-action="Index">Browse Events</a>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column">
                     <h5>My Entries</h5>
-                    <p>View the events you have entered.</p>
-                    <a asp-controller="Entries"
-                       asp-action="MyEntries"
-                       class="btn btn-primary">
-                        My Entries
-                    </a>
+                    <p>View and manage your race event entries.</p>
+                    <div class="mt-auto">
+                        <a class="btn btn-outline-primary"
+                           asp-controller="Entries"
+                           asp-action="MyEntries">My Entries</a>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column">
                     <h5>My Results</h5>
-                    <p>View your race performance and results.</p>
-                    <a class="btn btn-outline-primary"
-                       asp-controller="Results"
-                       asp-action="MyResults">
-                        View My Results
-                    </a>
+                    <p>View your recorded race results and performance.</p>
+                    <div class="mt-auto">
+                        <a class="btn btn-outline-primary"
+                           asp-controller="Results"
+                           asp-action="MyResults">My Results</a>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column">
                     <h5>My Profile</h5>
-                    <p>View your personal and account information.</p>
-                    <a class="btn btn-outline-primary"
-                       asp-controller="Participant"
-                       asp-action="Profile">
-                        View Profile
-                    </a>
+                    <p>View and update your participant profile information.</p>
+                    <div class="mt-auto">
+                        <a class="btn btn-outline-primary"
+                           asp-controller="Participant"
+                           asp-action="Profile">My Profile</a>
+                    </div>
                 </div>
             </div>
         </div>
